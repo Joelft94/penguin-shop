@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details - Larry's Fish Shop</title>
+    <style>
+        .order-detail {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .items-table th,
+        .items-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <%- include('../../partials/nav') %>
+    
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold">Order <%= order.orderNumber %></h1>
+            <a href="/orders" class="text-blue-600">← Back to Orders</a>
+        </div>
+
+        <div class="order-detail">
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div>
+                    <h3 class="font-bold mb-2">Order Details</h3>
+                    <p>Status: <%= order.status %></p>
+                    <p>Date: <%= new Date(order.createdAt).toLocaleString() %></p>
+                    <p>Igloo Address: <%= order.iglooAddress %></p>
+                </div>
+                <div>
+                    <h3 class="font-bold mb-2">Update Status</h3>
+                    <form action="/orders/<%= order._id %>/status" method="POST">
+                        <select name="status" class="p-2 border rounded mr-2">
+                            <option value="pending" <%= order.status === 'pending' ? 'selected' : '' %>>Pending</option>
+                            <option value="processing" <%= order.status === 'processing' ? 'selected' : '' %>>Processing</option>
+                            <option value="delivered" <%= order.status === 'delivered' ? 'selected' : '' %>>Delivered</option>
+                        </select>
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Update</button>
+                    </form>
+                </div>
+            </div>
+
+            <h3 class="font-bold mb-2">Order Items</h3>
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% order.items.forEach(item => { %>
+                        <tr>
+                            <td><%= item.product.name %></td>
+                            <td><%= item.quantity %></td>
+                            <td>$<%= item.product.price.toFixed(2) %></td>
+                            <td>$<%= (item.quantity * item.product.price).toFixed(2) %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-right font-bold">Total Amount:</td>
+                        <td class="font-bold">$<%= order.totalAmount.toFixed(2) %></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
