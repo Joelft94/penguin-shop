@@ -1,0 +1,15 @@
+{{define "content"}}
+<div class="order-container">
+    <div class="order-content">
+        <div class="success-message">
+            <h2 class="section-title">Order Confirmed!</h2>
+            <p>Your order number is:</p>
+            <div class="order-number">{{.OrderNumber}}</div>
+            <p>A penguin courier will deliver your items to your igloo soon.</p>
+            <div class="form-actions">
+                <a href="/products" class="order-btn">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

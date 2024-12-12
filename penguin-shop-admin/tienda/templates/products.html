@@ -1,0 +1,15 @@
+{{define "content"}}
+<h2 class="section-title">Our Products</h2>
+<div class="products-grid">
+    {{range .Products}}
+    <div class="product-card">
+        <span class="product-type">{{.Type}}</span>
+        <h3>{{.Name}}</h3>
+        <p>{{.Description}}</p>
+        <div class="product-price">${{printf "%.2f" .Price}}</div>
+        <div class="stock-info">In Stock: {{.Stock}} units</div>
+        <a href="/order?product_id={{.ID.Hex}}" class="order-btn">Order Now</a>
+    </div>
+    {{end}}
+</div>
+{{end}}
